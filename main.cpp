@@ -1,5 +1,5 @@
 #include <iostream>
-#include "mpi.h"
+#include <mpi.h>
 #define ll long long
 
 void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, int root, int argc, char* argv[]){
@@ -15,6 +15,7 @@ void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, int root, int argc, cha
         for(int i = 0; i < argc; i+= stride){
             if(i % mod == 0){
                 //this is a reciever, recieve from i + stride
+                MPI_Irecv(recvbuf, count, MPI_LONG_LONG, i + stride, 0, MPI_COMM_WORLD, MPI_REQUEST_NULL);
 
             }else{
                 //send to i - stride,
