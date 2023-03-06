@@ -5,10 +5,11 @@
 
 void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, int root, int argc, char* argv[]){
 
+  
+    MPI_Init(NULL, NULL);
     int world_size;
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
     printf("%d", world_size);
-    MPI_Init(NULL, NULL);
     //stride is the size of the groups. We start with single groups of 1. Then we reduce by increasing the size of the stride.
     int stride  = 1;
     int mod = 2 * stride;
