@@ -24,7 +24,7 @@ void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, int root, int argc, cha
 
 
             ll* buff;
-            MPI_Irecv(buff, 1, MPI_LONG_LONG, sendbuf + stride, 0, MPI_COMM_WORLD, MPI_REQUEST_NULL);
+            //MPI_Irecv(buff, 1, MPI_LONG_LONG, sendbuf + stride, 0, MPI_COMM_WORLD, MPI_REQUEST_NULL);
             //do nothing
         }
         else if(rank % mod == 0){
