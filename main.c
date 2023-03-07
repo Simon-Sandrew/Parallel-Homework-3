@@ -44,7 +44,7 @@ void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, MPI_Datatype datatype, 
 
 int main(int argc, char *argv[]) {
         int rank;
-        ll* curr = calloc(sizeof(ll), 1073741824);
+        ll* curr = calloc(1073741824, sizeof(ll),);
         for(int i = 0; i < 1073741824; ++i){
             curr[i] = i;
         }
