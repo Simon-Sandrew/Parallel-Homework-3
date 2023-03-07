@@ -55,6 +55,7 @@ int main(int argc, char *argv[]) {
         if(rank == 0){
             printf("%lld", curr[0]);
         }
+        MPI_Finalize();
         return 0;
 
 }
