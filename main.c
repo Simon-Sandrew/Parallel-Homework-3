@@ -19,7 +19,7 @@ void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, MPI_Datatype datatype, 
 
     int stride = 1;
     int idx = 0;
-    while(idx != size - 1){
+    while(stride < size){
         ll curr = 0;
 
         if(rank % (2 * stride) > stride){
@@ -34,9 +34,6 @@ void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, MPI_Datatype datatype, 
             recvbuf[0] += curr;
         }
         
-
-
-        ++idx;
         stride *= 2;
     }
 
