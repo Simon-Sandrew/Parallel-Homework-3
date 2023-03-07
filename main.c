@@ -18,7 +18,8 @@ void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, MPI_Datatype datatype, 
     }
 
     int stride = 1;
-    while(stride < size){
+    int idx = 0;
+    while(idx != size - 1){
         ll curr = 0;
 
         if(rank % (2 * stride) == stride){
@@ -26,6 +27,7 @@ void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, MPI_Datatype datatype, 
             MPI_Isend(recvbuf, 1, MPI_LONG_LONG, dest, 0, comm, &req);
             MPI_Wait(&req, MPI_STATUS_IGNORE);
         }
+
         if(rank % (2 * stride) == 0){
             MPI_Irecv(&curr, 1, MPI_LONG_LONG, rank + stride, 0, comm, &req);
             MPI_Wait(&req, MPI_STATUS_IGNORE);
@@ -34,7 +36,7 @@ void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, MPI_Datatype datatype, 
         
 
 
-
+        ++idx
         stride *= 2;
     }
 
