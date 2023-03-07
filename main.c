@@ -1,4 +1,5 @@
 #include <mpi.h>
+#include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
 #define ll long long
@@ -38,8 +39,8 @@ void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, MPI_Datatype datatype, 
 }
 
 int main(int argc, char *argv[]) {
-        ll* curr = calloc(sizeof(ll), 16);
-        for(int i = 0; i < 16; ++i){
+        ll* curr = calloc(sizeof(ll), 1073741824);
+        for(int i = 0; i < 1073741824; ++i){
             curr[i] = i;
         }
         MPI_Init(&argc, &argv);
