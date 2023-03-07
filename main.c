@@ -67,18 +67,16 @@ int main(int argc, char *argv[]) {
     uint64_t start = clock_now();
     MPI_P2P_REDUCE(in, rec, BLOCK_SIZE, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
     uint64_t end = clock_now();
-    printf("Time P2P: %f\n", (end - start) / freq);
     
     start = clock_now();
     MPI_Reduce(&freq, rec2, BLOCK_SIZE, MPI_LONG_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
     end = clock_now();
-    printf("Time NORM: %f\n", (end - start) / freq);
 
     MPI_Barrier(MPI_COMM_WORLD);
     
     if(rank == 0){
-        printf("%lld\n", rec[0]);
-        printf("%lld\n", rec2[0]);
+         printf("Time P2P: %f\n", (end - start) / freq);
+        printf("Time NORM: %f\n", (end - start) / freq);
     }
     MPI_Finalize();
     return 0;
