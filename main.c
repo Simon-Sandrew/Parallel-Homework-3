@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
         printf("Value Norm: %lld\n", solution);
         printf("Time P2P: %llu\n", (double)(end_time1 - start_time1));
         printf("Time NORM: %llu\n", (double)(end_time2 - start_time2));
-
+        printf("Time calc: %llu\n", (double)(end_time2 - start_time2) / (double)freq);
 
     }
 
