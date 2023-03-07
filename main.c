@@ -36,19 +36,33 @@ void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, MPI_Datatype datatype, 
         
         stride *= 2;
     }
+    MPI_Barrier(comm);
 
 }
 
 int main(int argc, char *argv[]) {
         int rank;
-        ll* curr = calloc(1073741824, sizeof(ll));
-        for(int i = 0; i < 1073741824; ++i){
-            curr[i] = i;
-        }
+        int size;
+        
         MPI_Init(&argc, &argv);
-        MPI_P2P_REDUCE(curr, curr, 16, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
-        MPI_Barrier(MPI_COMM_WORLD);
+        
         MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+        MPI_Comm_size(MPI_COMM_WORLD, &size);
+       
+
+        const int BLOCK_SIZE = (1 << 30) / size;
+
+        ll* in = calloc(BLOCK_SIZE, sizeof(ll));
+        ll* rec = calloc(BLOCK_SIZE, sizeof(ll));
+        ll val = BLOCK_SIZE + rank;
+        
+        for(int i = 0; i < BLOCK_SIZE; ++i){
+            in[i] = val++;
+        }
+
+        MPI_P2P_REDUCE(in, rec, BLOCK_SIZE, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
+        MPI_Barrier(MPI_COMM_WORLD);
+       
         if(rank == 0){
             printf("%lld", curr[0]);
         }
