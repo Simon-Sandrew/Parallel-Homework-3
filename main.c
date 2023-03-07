@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
 
         ll* in = calloc(BLOCK_SIZE, sizeof(ll));
         ll* rec = calloc(BLOCK_SIZE, sizeof(ll));
-        ll val = BLOCK_SIZE + rank;
+        ll val = BLOCK_SIZE * rank;
         
         for(int i = 0; i < BLOCK_SIZE; ++i){
             in[i] = val++;
