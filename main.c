@@ -5,11 +5,11 @@
 #define ll long long
 
 void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, MPI_Datatype datatype, int root, MPI_Comm comm){
-    int _rank;
-    int _size;
+    int rank;
+    int size;
 
-    MPI_Comm_rank(comm, &_rank);
-    MPI_Comm_size(comm, &_size);
+    MPI_Comm_rank(comm, &rank);
+    MPI_Comm_size(comm, &size);
 
     MPI_Request req;
     recvbuf[0] = 0;
@@ -18,16 +18,16 @@ void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, MPI_Datatype datatype, 
     }
 
     int stride = 1;
-    while(stride < _size){
+    while(stride < size){
         ll curr = 0;
-        if(_rank % (2 * stride) == 0){
+        if(rank % (2 * stride) == 0){
             MPI_Irecv(&curr, 1, MPI_LONG_LONG, rank + stride, 0, comm, &req);
             MPI_Wait(&req, MPI_STATUS_IGNORE);
             recvbuf[0] += curr;
         }
         
-        if(_rank % (2 * stride) == stride){
-            int dest = _rank - stride;
+        if(rank % (2 * stride) == stride){
+            int dest = rank - stride;
             MPI_Isend(recvbuf, 1, MPI_LONG_LONG, dest, 0, comm, &req);
             MPI_Wait(&req, MPI_STATUS_IGNORE);
         }
@@ -39,6 +39,7 @@ void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, MPI_Datatype datatype, 
 }
 
 int main(int argc, char *argv[]) {
+        int rank;
         ll* curr = calloc(sizeof(ll), 1073741824);
         for(int i = 0; i < 1073741824; ++i){
             curr[i] = i;
