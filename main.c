@@ -54,6 +54,7 @@ int main(int argc, char *argv[]) {
 
     ll* in = calloc(BLOCK_SIZE, sizeof(ll));
     ll* rec = calloc(BLOCK_SIZE, sizeof(ll));
+    ll* rec2 = calloc(BLOCK_SIZE, sizeof(ll));
     ll val = BLOCK_SIZE * rank;
     
     for(int i = 0; i < BLOCK_SIZE; ++i){
@@ -61,10 +62,12 @@ int main(int argc, char *argv[]) {
     }
 
     MPI_P2P_REDUCE(in, rec, BLOCK_SIZE, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
+    MPI_Reduce(in, rec2, BLOCK_SIZE, MPI_LONG_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
     MPI_Barrier(MPI_COMM_WORLD);
     
     if(rank == 0){
-        printf("%lld", rec[0]);
+        printf("%lld\n", rec[0]);
+        printf("%lld", rec2[0]);
     }
     MPI_Finalize();
     return 0;
