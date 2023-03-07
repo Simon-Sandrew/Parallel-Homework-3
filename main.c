@@ -55,6 +55,7 @@ int main(int argc, char *argv[]) {
     //need rank and size for later
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
+    printf("size: %d\n", size);
     
 
     //2^30th constant
