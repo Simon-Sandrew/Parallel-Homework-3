@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
     const int freq =  512000000;
 
       unsigned long long start_time1=clock_now(); // dummy clock reads to init
-      MPI_P2P_REDUCE(in, rec, BLOCK_SIZE, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
+      MPI_P2P_REDUCE(in, rec, blck, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
       unsigned long long end_time1=clock_now();   // dummy clock reads to init start1 = clock_now();
     
       unsigned long long start_time2=clock_now(); // dummy clock reads to init
