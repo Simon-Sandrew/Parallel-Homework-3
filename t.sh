@@ -10,4 +10,4 @@ module load spectrum-mpi
 
 
 # taskset -c 0-159:4 mpirun main
-taskset -c 0-159:8 mpirun -N ${1:-32} /gpfs/u/home/PCPC/PCPCdrws/scratch/Parallel-Homework-3/a.out
+taskset -c 0-159:$1 mpirun -N $2 /gpfs/u/home/PCPC/PCPCdrws/scratch/Parallel-Homework-3/a.out
