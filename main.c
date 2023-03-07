@@ -5,11 +5,11 @@
 #define ll long long
 
 void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, MPI_Datatype datatype, int root, MPI_Comm comm){
-    int rank;
-    int size;
+    int _rank;
+    int _size;
 
-    MPI_Comm_rank(comm, &rank);
-    MPI_Comm_size(comm, &size);
+    MPI_Comm_rank(comm, &_rank);
+    MPI_Comm_size(comm, &_size);
 
     MPI_Request req;
     recvbuf[0] = 0;
@@ -18,16 +18,16 @@ void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, MPI_Datatype datatype, 
     }
 
     int stride = 1;
-    while(stride < size){
+    while(stride < _size){
         ll curr = 0;
-        if(rank % (2 * stride) == 0){
+        if(_rank % (2 * stride) == 0){
             MPI_Irecv(&curr, 1, MPI_LONG_LONG, rank + stride, 0, comm, &req);
             MPI_Wait(&req, MPI_STATUS_IGNORE);
             recvbuf[0] += curr;
         }
         
-        if(rank % (2 * stride) == stride){
-            int dest = rank - stride;
+        if(_rank % (2 * stride) == stride){
+            int dest = _rank - stride;
             MPI_Isend(recvbuf, 1, MPI_LONG_LONG, dest, 0, comm, &req);
             MPI_Wait(&req, MPI_STATUS_IGNORE);
         }
