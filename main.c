@@ -51,36 +51,33 @@ int main(int argc, char *argv[]) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     
 
-    const int BLOCK_SIZE = (1 << 30) / size;
+    const int blck = 1073741824/ size;
 
-    ll* in = calloc(BLOCK_SIZE, sizeof(ll));
-    ll* rec = calloc(BLOCK_SIZE, sizeof(ll));
-    ll* rec2 = calloc(BLOCK_SIZE, sizeof(ll));
-    ll val = BLOCK_SIZE * rank;
+    ll* in = calloc(blck, sizeof(ll));
+    ll* rec = calloc(blck, sizeof(ll));
+    ll val = blck * rank;
     ll sum = 0;
     ll solution = 0;
-    for(int i = 0; i < BLOCK_SIZE; ++i){
+    for(int i = 0; i < blck; ++i){
         in[i] = val++;
         sum += in[i];
     }
     const int freq =  512000000;
 
-    uint64_t start1 = clock_now();
-    MPI_P2P_REDUCE(in, rec, BLOCK_SIZE, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
-    MPI_Wait(NULL, NULL);
-    uint64_t end1 = clock_now();
+      unsigned long long start_time1=clock_now(); // dummy clock reads to init
+      MPI_P2P_REDUCE(in, rec, BLOCK_SIZE, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
+      unsigned long long end_time1=clock_now();   // dummy clock reads to init start1 = clock_now();
     
-    uint64_t start2 = clock_now();
-    MPI_Reduce(&sum, &solution, 1, MPI_LONG_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Wait(NULL, NULL);
-    uint64_t  end2 = clock_now();
+      unsigned long long start_time2=clock_now(); // dummy clock reads to init
+      MPI_Reduce(&sum, &solution, 1, MPI_LONG_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
+      unsigned long long end_time2=clock_now();   // dummy clock reads to init start1 = clock_now();
 
     MPI_Barrier(MPI_COMM_WORLD);
     if(rank == 0){
         printf("Value P2P: %lld\n", rec[0]);
         printf("Value Norm: %lld\n", solution);
-        printf("Time P2P: %f\n", (end1 - start1) / freq);
-        printf("Time NORM: %f\n", (end2 - start2) / freq);
+        printf("Time P2P: %llu\n", (end_time1 - start_time1) / freq);
+        printf("Time NORM: %llu\n", (end_time2 - start_time2) / freq);
     }
 
     MPI_Finalize();
