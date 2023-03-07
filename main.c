@@ -38,12 +38,16 @@ void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, MPI_Datatype datatype, 
 }
 
 int main(int argc, char *argv[]) {
+        ll* curr = calloc(sizeof(ll), 16);
+        for(int i = 0; i < 16; ++i){
+            curr[i] = i;
+        }
         MPI_Init(&argc, &argv);
-        MPI_P2P_REDUCE(NULL, NULL, 0, 0, argc, argv);
+        MPI_P2P_REDUCE(curr, curr, 16, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
         MPI_Wait(NULL, NULL);
         MPI_Comm_rank(MPI_COMM_WORLD, &rank);
         if(rank == 0){
-            printf();
+            printf("%lld", curr[0]);
         }
         return 0;
 
