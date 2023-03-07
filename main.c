@@ -67,10 +67,12 @@ int main(int argc, char *argv[]) {
 
     uint64_t start1 = clock_now();
     MPI_P2P_REDUCE(in, rec, BLOCK_SIZE, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
+    MPI_Barrier(MPI_COMM_WORLD);
     uint64_t end1 = clock_now();
     
     uint64_t start2 = clock_now();
     MPI_Reduce(&sum, &solution, 1, MPI_LONG_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Barrier(MPI_COMM_WORLD);
     uint64_t  end2 = clock_now();
 
     MPI_Barrier(MPI_COMM_WORLD);
