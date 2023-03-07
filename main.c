@@ -36,7 +36,7 @@ void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, MPI_Datatype datatype, 
         
 
 
-        ++idx
+        ++idx;
         stride *= 2;
     }
 
