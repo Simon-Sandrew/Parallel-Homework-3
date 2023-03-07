@@ -22,7 +22,7 @@ void MPI_P2P_REDUCE(ll *sendbuf, ll *recvbuf, int count, MPI_Datatype datatype, 
     while(idx != size - 1){
         ll curr = 0;
 
-        if(rank % (2 * stride) == stride){
+        if(rank % (2 * stride) > stride){
             int dest = rank - stride;
             MPI_Isend(recvbuf, 1, MPI_LONG_LONG, dest, 0, comm, &req);
             MPI_Wait(&req, MPI_STATUS_IGNORE);
