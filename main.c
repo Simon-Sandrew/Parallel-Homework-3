@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
     uint64_t end = clock_now();
     
     start = clock_now();
-    MPI_Reduce(&freq, rec2, BLOCK_SIZE, MPI_LONG_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(in, rec2, BLOCK_SIZE, MPI_LONG_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
     end = clock_now();
 
     MPI_Barrier(MPI_COMM_WORLD);
